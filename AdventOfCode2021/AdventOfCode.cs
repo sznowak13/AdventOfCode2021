@@ -2,11 +2,11 @@
 {
     public static void Main()
     {
-        //Console.WriteLine(dayOne1());
-        //Console.WriteLine(dayOne2());
-        //Console.WriteLine(dayTwo1());
-        //Console.WriteLine(dayTwo2());
-        //Console.WriteLine(dayThree1());
+        Console.WriteLine(dayOne1());
+        Console.WriteLine(dayOne2());
+        Console.WriteLine(dayTwo1());
+        Console.WriteLine(dayTwo2());
+        Console.WriteLine(dayThree1());
         Console.WriteLine(dayThree2());
     }
 
