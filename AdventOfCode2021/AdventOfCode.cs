@@ -2,10 +2,12 @@
 {
     public static void Main()
     {
-        Console.WriteLine(dayOne1());
-        Console.WriteLine(dayOne2());
-        Console.WriteLine(dayTwo1());
-        Console.WriteLine(dayTwo2());
+        //Console.WriteLine(dayOne1());
+        //Console.WriteLine(dayOne2());
+        //Console.WriteLine(dayTwo1());
+        //Console.WriteLine(dayTwo2());
+        //Console.WriteLine(dayThree1());
+        Console.WriteLine(dayThree2());
     }
 
     static int dayOne1()
@@ -91,5 +93,81 @@
             }
         }
         return position * depth;
+    }
+
+    static int dayThree1()
+    {
+
+        char[][] report = Array.ConvertAll(
+            File.ReadAllLines(@"C:\Users\ShaiiboN\source\repos\AdventOfCode2021\AdventOfCode2021\inputs\DayThree.txt"),
+            s => s.ToCharArray()
+            );
+        int lnLength = report[0].Length;
+        int commonnessPoint = report.Length / 2;
+        int[] btSum = new int[lnLength];
+        foreach (char[] btArray in report)
+        {
+            for (int i = 0; i < lnLength; i++)
+            {
+                btSum[i] += (int) char.GetNumericValue(btArray[i]);
+            }
+        }
+        char[] gammaChars = new char[lnLength];
+
+        for (int i = 0; i < lnLength; i++)
+        {
+            gammaChars[i] = btSum[i] > commonnessPoint ? '1' : '0';
+        }
+        int gammaRate = Convert.ToInt32(string.Join("", gammaChars), 2);
+        int xorComponent = (int) Math.Pow(2, lnLength) - 1;
+        int epsilonRate = gammaRate ^ xorComponent;
+
+        return gammaRate * epsilonRate;
+
+    }
+
+    static int dayThree2()
+    {
+
+        char[][] report = Array.ConvertAll(
+            File.ReadAllLines(@"C:\Users\ShaiiboN\source\repos\AdventOfCode2021\AdventOfCode2021\inputs\DayThree.txt"),
+            s => s.ToCharArray()
+            );
+
+        string oxRating = getRating(report, '1', '0');
+        string CO2Rating = getRating(report, '0', '1');
+        int ox = Convert.ToInt32(oxRating, 2);
+        int co = Convert.ToInt32(CO2Rating, 2);
+
+        return ox * co;
+
+    }
+
+    static string getRating(char[][] report, char winningBit, char losingBit)
+    {
+        List<char[]> bytePool = report.ToList();
+        int pos = 0;
+        while (bytePool.Count > 1)
+        {
+            int commonnessPoint = (bytePool.Count / 2) + (bytePool.Count % 2);
+            int counter = 0;
+            foreach (char[] bt in bytePool)
+            {
+                counter += (int)char.GetNumericValue(bt[pos]);
+            }
+
+            bytePool = bytePool.Where(bt => {
+                if (counter >= commonnessPoint)
+                {
+                    return bt[pos] == winningBit;
+                }
+                else
+                {
+                    return bt[pos] == losingBit;
+                }
+            }).ToList();
+            pos++;
+        }
+        return string.Join("", bytePool[0]);
     }
 }
